@@ -46,6 +46,14 @@ export default {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        nube: {
+          DEFAULT: "hsl(var(--nube))",
+          oscura: "hsl(var(--nube-oscura))",
+        },
+        tinta: {
+          DEFAULT: "hsl(var(--tinta))",
+          suave: "hsl(var(--tinta-suave))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import RecordatorioCompras from "./pages/RecordatorioCompras";
@@ -17,6 +18,8 @@ import AdminSuperadmin from "./pages/AdminSuperadmin";
 import AdminMarketing from "./pages/AdminMarketing";
 import NotFound from "./pages/NotFound";
 import TestMascota from "./pages/TestMascota";
+// Carga diferida: su librería de animación no debe pesar en el resto del sitio.
+const HocicosCanosos = lazy(() => import("./pages/HocicosCanosos"));
 
 const queryClient = new QueryClient();
 
@@ -32,6 +35,14 @@ const App = () => (
           <Route path="/recordatoriocompras" element={<RecordatorioCompras />} />
           <Route path="/test-mascota" element={<TestMascota />} />
           <Route path="/testmascota" element={<TestMascota />} />
+          <Route
+            path="/hocicos-canosos"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-cafe" />}>
+                <HocicosCanosos />
+              </Suspense>
+            }
+          />
           <Route path="/peludos/:codigo" element={<PeludoProfile />} />
           <Route path="/admin" element={<AdminAuth />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />

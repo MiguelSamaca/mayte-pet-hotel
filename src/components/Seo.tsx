@@ -11,7 +11,7 @@ interface SeoProps {
 
 const FALLBACK_SITE_URL = "https://maytepethotel.com";
 const DEFAULT_IMAGE =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/0maNRANWg8NigfI6BuWwrjJItVC2/social-images/social-1770176941336-Logo MPH con fondo (1).png";
+  "https://maytepethotel.com/social-mayte-pet-hotel.png";
 
 const Seo = ({ title, description, path, image, type = "website", noindex }: SeoProps) => {
   // Canonical/og:url should reflect the actual host the user is on,

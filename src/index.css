@@ -69,6 +69,12 @@ All colors MUST be HSL.
 
     --radius: 1rem;
 
+    /* Hocicos Canosos — tonos derivados de la marca (rosa/morado), sin colores ajenos a la paleta */
+    --nube: 305 60% 98%;
+    --nube-oscura: 303 55% 93%;
+    --tinta: 275 35% 16%;
+    --tinta-suave: 270 8% 38%;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
