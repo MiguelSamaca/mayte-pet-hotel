@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 // Desktop/Tablet images
@@ -20,12 +21,15 @@ import heroMobile5 from "@/assets/hero-mobile-5.webp";
 const desktopHeroImages = [heroImage1, heroImage2, heroImage3, heroImage4, heroImage7, heroImage8];
 const mobileHeroImages = [heroMobile1, heroMobile2, heroMobile3, heroMobile4, heroMobile5];
 
-const navLinks = [
+type EnlaceNav = { label: string; href: string; external?: boolean; interna?: boolean };
+
+const navLinks: EnlaceNav[] = [
   { label: "Qué hacemos", href: "#que-hacemos" },
   { label: "Servicios", href: "#servicios" },
   { label: "Testimonios", href: "#testimonios" },
   { label: "Instalaciones", href: "#instalaciones" },
   { label: "Equipo", href: "#equipo" },
+  { label: "Hocicos Canosos", href: "/hocicos-canosos", interna: true },
   { label: "Mayte Boutique", href: "https://maytepetboutique.com", external: true },
 ];
 
@@ -158,17 +162,27 @@ const Hero = () => {
             </a>
 
             <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noopener noreferrer" : undefined}
-                  className="text-white hover:text-primary transition-colors font-medium"
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.interna ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="text-white hover:text-primary transition-colors font-medium"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    className="text-white hover:text-primary transition-colors font-medium"
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
             </div>
 
             <button
@@ -181,18 +195,29 @@ const Hero = () => {
 
           {mobileMenuOpen && (
             <div className="md:hidden mt-4 bg-black/80 rounded-2xl p-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noopener noreferrer" : undefined}
-                  className="block py-3 text-white hover:text-primary transition-colors font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.interna ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    className="block py-3 text-white hover:text-primary transition-colors font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    className="block py-3 text-white hover:text-primary transition-colors font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
             </div>
           )}
         </div>
