@@ -49,6 +49,13 @@ Deploy de funciones: `supabase functions deploy <nombre>` (requiere CLI de Supab
 - **Supabase**: proyecto propio `fxalcejjkftwlegocsys`, organización `MaytePetHotel`,
   región `us-east-1`. Reemplaza a `cvhzsanjnkmqzrjdgcjh`, que era un backend de
   Lovable Cloud y ya no es la fuente de verdad.
+  - **Cuenta dueña: `cuidogapp@gmail.com`.** No es la personal de Miguel
+    (`miguel.samaca.samaca@gmail.com`) ni `ingsonido.msamaca@gmail.com`: con esas el
+    dashboard responde "no tienes acceso". La CLI de este equipo suele quedar logueada con
+    la personal; antes de usarla aquí, `npx supabase login` con cuidogapp.
+  - **Plan Free = se pausa tras 7 días sin actividad.** Pausado, el dominio
+    `<ref>.supabase.co` deja de resolver en DNS y el `/admin` no deja entrar. Pasó el
+    9 nov 2026; se reactivó desde el dashboard con "Restore project".
   - Conexión directa `db.<ref>.supabase.co` **no resuelve por IPv4**: usar el pooler
     `postgresql://postgres.<ref>:<pass>@aws-0-us-east-1.pooler.supabase.com:5432/postgres`.
 - **Deploy**: Vercel, equipo `MAYTE` (`mayte3`, plan Hobby), proyecto `mypet-app`.
