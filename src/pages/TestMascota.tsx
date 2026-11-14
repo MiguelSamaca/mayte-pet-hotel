@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
+import { enlaceWhatsApp, guardarLead, registrarClicWhatsApp, registrarFormulario } from "@/lib/conversiones";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 
@@ -213,7 +214,6 @@ function calcularPerfil(respuestas: Opcion[]) {
   return { perfil: PERFILES[perfilKey], totales, score };
 }
 
-const WHATSAPP = "573154148380";
 
 export default function TestMascota() {
   const [paso, setPaso] = useState<"intro" | "quiz" | "form" | "resultado">("intro");
@@ -279,7 +279,7 @@ export default function TestMascota() {
     }
     setEnviando(true);
     try {
-      const { error: dbError } = await supabase.from("leads").insert({
+      const { error: dbError } = await guardarLead({
         email: email.trim(),
         nombre: nombre.trim(),
         telefono: telefono.trim() || null,
@@ -287,9 +287,7 @@ export default function TestMascota() {
       });
       if (dbError) throw dbError;
 
-      if (typeof (window as any).fbq === "function") {
-        (window as any).fbq("track", "Lead", { content_name: "Quiz Comportamiento Mascota" });
-      }
+      const evento = registrarFormulario("quiz_comportamiento", "Lead");
 
       supabase.functions
         .invoke("notify-lead", {
@@ -299,6 +297,7 @@ export default function TestMascota() {
             telefono: telefono.trim(),
             accepts_marketing: true,
             origen: "quiz_comportamiento",
+            ...evento,
           },
         })
         .catch(console.error);
@@ -575,13 +574,14 @@ export default function TestMascota() {
               </div>
 
               <a
-                href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
+                href={enlaceWhatsApp(
                   `¡Hola! Hice el test de comportamiento de ${
                     nombreMascota || "mi peludo"
                   } y me salió: ${resultado.perfil.titulo}. Quiero reservar con mi 10% OFF 🐾`
-                )}`}
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => registrarClicWhatsApp("test_reservar")}
                 className="block w-full py-4 rounded-2xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-bold text-center shadow-lg hover:scale-[1.02] transition-transform mb-2"
               >
                 Reservar por WhatsApp 💬

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { guardarLead, registrarFormulario } from "@/lib/conversiones";
 import { Button } from "@/components/ui/button";
 
 const Newsletter = () => {
@@ -26,27 +27,13 @@ const Newsletter = () => {
 
     setIsLoading(true);
     try {
-      const { error: dbError } = await supabase
-        .from("leads")
-        .insert({ email: email.trim(), nombre: nombre.trim() || null, origen: "newsletter_tarifas" });
+      const { error: dbError } = await guardarLead({ email: email.trim(), nombre: nombre.trim() || null, origen: "newsletter_tarifas" });
 
       if (dbError) throw dbError;
 
-      const eventId = `reg_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-
-      if (typeof (window as any).fbq === "function") {
-        (window as any).fbq("track", "CompleteRegistration", {
-          content_name: "newsletter_tarifas",
-        }, { eventID: eventId });
-      }
+      const evento = registrarFormulario("newsletter_tarifas", "CompleteRegistration");
 
       setIsSubmitted(true);
-
-      // Get Meta browser cookies for deduplication
-      const getCookie = (name: string) => {
-        const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-        return match ? match[2] : undefined;
-      };
 
       supabase.functions.invoke("notify-lead", {
         body: {
@@ -54,10 +41,7 @@ const Newsletter = () => {
           email: email.trim(),
           accepts_marketing: true,
           origen: "newsletter_tarifas",
-          event_id: eventId,
-          client_ua: navigator.userAgent,
-          fbc: getCookie("_fbc"),
-          fbp: getCookie("_fbp"),
+          ...evento,
         },
       }).catch(console.error);
     } catch {

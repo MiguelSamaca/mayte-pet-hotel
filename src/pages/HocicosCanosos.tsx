@@ -14,7 +14,7 @@ import MetodoHocicos from "@/components/hocicos/MetodoHocicos";
 import MoritaHocicos from "@/components/hocicos/MoritaHocicos";
 import FaqHocicos from "@/components/hocicos/FaqHocicos";
 import CierreHocicos from "@/components/hocicos/CierreHocicos";
-import { WA_VISITA, registrarContacto } from "@/components/hocicos/contacto";
+import { registrarContacto, waVisita } from "@/components/hocicos/contacto";
 import imgHero from "@/assets/hocicos/hocicos-hero.webp";
 
 /**
@@ -70,10 +70,10 @@ const HocicosCanosos = () => {
               Mayte Pet Hotel
             </Link>
             <a
-              href={WA_VISITA}
+              href={waVisita()}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={registrarContacto}
+              onClick={registrarContacto("hocicos_encabezado")}
               className={`rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/50 ${
                 encabezadoSolido
                   ? "bg-accent text-accent-foreground shadow-md hover:bg-accent/90"

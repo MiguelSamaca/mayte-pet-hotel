@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { enlaceWhatsApp, registrarClicWhatsApp } from "@/lib/conversiones";
+
+const MENSAJE_RESERVA = "Hola 🐶!\n\nMe gustaría conocer más del Hotel 🐕‍🦺🏩\n\nPor favor me das información 🛏️🐕";
 
 const hotelPlans = [
   { name: "Día Hotel 24 h (1 - 3 Días)", hotel: "$60,000.00", manada: "$108,000.00", recommended: false },
@@ -116,9 +119,10 @@ const Pricing = () => {
               
               <div className="text-center">
                 <a 
-                  href="https://api.whatsapp.com/send?phone=573154148380&text=Hola%20%F0%9F%90%B6!%0A%0AMe%20gustar%C3%ADa%20conocer%20m%C3%A1s%20del%20Hotel%F0%9F%90%95%E2%80%8D%F0%9F%A6%BA%F0%9F%A6%AE%F0%9F%8F%A9%0A%0APor%20favor%20me%20das%20informaci%C3%B3n%F0%9F%9B%8F%EF%B8%8F%F0%9F%90%95"
+                  href={enlaceWhatsApp(MENSAJE_RESERVA)}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => registrarClicWhatsApp("tarifas_reservar_plan")}
                 >
                   <Button 
                     size="lg" 

@@ -6,6 +6,12 @@ async function sha256(value: string): Promise<string> {
   return [...new Uint8Array(hash)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// Meta pide el teléfono solo con dígitos y con indicativo de país (Colombia: 57).
+function normalizarTelefono(valor: string): string {
+  const digitos = valor.replace(/\D/g, "");
+  return digitos.length === 10 ? `57${digitos}` : digitos;
+}
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -18,7 +24,14 @@ serve(async (req) => {
   }
 
   try {
-    const { nombre, email, accepts_marketing = true, origen = "popup_descuento", event_id, client_ip, client_ua, fbc, fbp } = await req.json();
+    const {
+      nombre, email, telefono, accepts_marketing = true, origen = "popup_descuento",
+      event_name = "CompleteRegistration", event_id, client_ua, fbc, fbp, event_source_url, ref,
+    } = await req.json();
+    // La IP la pone el servidor: el navegador no la conoce. Meta la usa para unir el evento con la persona.
+    const client_ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+    // Solo eventos de formulario; cualquier otro valor se trata como registro.
+    const nombreEvento = ["Lead", "CompleteRegistration"].includes(event_name) ? event_name : "CompleteRegistration";
 
     // Sync lead to Shopify as customer via Client Credentials
     const SHOPIFY_STORE_URL = Deno.env.get("SHOPIFY_STORE_URL");
@@ -167,13 +180,14 @@ serve(async (req) => {
     if (META_TOKEN) {
       try {
         const eventData: Record<string, unknown> = {
-          event_name: "CompleteRegistration",
+          event_name: nombreEvento,
           event_time: Math.floor(Date.now() / 1000),
           action_source: "website",
-          event_source_url: "https://maytepethotel.com/",
+          event_source_url: event_source_url || "https://maytepethotel.com/",
           user_data: {
             em: [await sha256(email.trim().toLowerCase())],
             ...(nombre ? { fn: [await sha256(nombre.trim().toLowerCase())] } : {}),
+            ...(telefono ? { ph: [await sha256(normalizarTelefono(telefono))] } : {}),
             ...(client_ip ? { client_ip_address: client_ip } : {}),
             ...(client_ua ? { client_user_agent: client_ua } : {}),
             ...(fbc ? { fbc } : {}),
@@ -181,6 +195,7 @@ serve(async (req) => {
           },
           custom_data: {
             content_name: origen,
+            ...(ref ? { content_category: ref } : {}),
           },
           ...(event_id ? { event_id } : {}),
         };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { guardarLead, registrarFormulario } from "@/lib/conversiones";
 import heroImg from "@/assets/hero-2.webp";
 import ballpitImg from "@/assets/ballpit-2.webp";
 
@@ -69,22 +70,18 @@ const LeadPopup = () => {
 
     setIsLoading(true);
     try {
-      const { error: dbError } = await supabase
-        .from("leads")
-        .insert({ email: email.trim(), nombre: nombre.trim() || null, origen: "popup_descuento" });
+      const { error: dbError } = await guardarLead({ email: email.trim(), nombre: nombre.trim() || null, origen: "popup_descuento" });
 
       if (dbError) throw dbError;
 
-      // Fire Meta Pixel Lead event
-      if (typeof (window as any).fbq === "function") {
-        (window as any).fbq("track", "Lead");
-      }
+      // Píxel, Google y (vía notify-lead) Conversions API, con el mismo event_id.
+      const evento = registrarFormulario("popup_descuento", "Lead");
 
       setIsSubmitted(true);
 
       // Sync to Shopify (fire and forget)
       supabase.functions.invoke("notify-lead", {
-        body: { nombre: nombre.trim(), email: email.trim(), accepts_marketing: acceptsMarketing, origen: "popup_descuento" },
+        body: { nombre: nombre.trim(), email: email.trim(), accepts_marketing: acceptsMarketing, origen: "popup_descuento", ...evento },
       }).catch(console.error);
     } catch {
       setError("Hubo un error. Intenta de nuevo.");

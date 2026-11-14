@@ -1,16 +1,14 @@
-const WhatsAppButton = () => {
-  const handleClick = () => {
-    if (typeof (window as any).fbq === "function") {
-      (window as any).fbq("track", "Contact");
-    }
-  };
+import { enlaceWhatsApp, registrarClicWhatsApp } from "@/lib/conversiones";
 
+const MENSAJE = "Hola 🐶 Me gustaría conocer más del Hotel. ¿Me das información?";
+
+const WhatsAppButton = () => {
   return (
     <a
-      href="https://wa.link/zhikvi"
+      href={enlaceWhatsApp(MENSAJE)}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={handleClick}
+      onClick={() => registrarClicWhatsApp("boton_flotante")}
       className="fixed bottom-6 right-4 z-50 p-3 rounded-full bg-green-500 hover:bg-green-600 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
       aria-label="Contactar por WhatsApp"
     >

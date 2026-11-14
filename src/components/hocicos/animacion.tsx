@@ -1,7 +1,7 @@
 import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { CalendarCheck, MessageCircle, PawPrint } from "lucide-react";
-import { EASE, WA_INFO, WA_VISITA, registrarContacto } from "./contacto";
+import { EASE, registrarContacto, waInfo, waVisita } from "./contacto";
 
 interface RevealProps {
   children: ReactNode;
@@ -38,10 +38,10 @@ export const Etiqueta = ({ children, claro = false }: { children: ReactNode; cla
 export const Botones = ({ sobreFoto = false, centrado = false }: { sobreFoto?: boolean; centrado?: boolean }) => (
   <div className={`flex flex-col gap-3 sm:flex-row ${centrado ? "sm:justify-center" : ""}`}>
     <motion.a
-      href={WA_VISITA}
+      href={waVisita()}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={registrarContacto}
+      onClick={registrarContacto("hocicos_agenda_visita")}
       whileHover={{ y: -3 }}
       whileTap={{ scale: 0.97 }}
       className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-accent-foreground shadow-[0_14px_34px_-12px_hsl(var(--accent)/0.75)] transition-colors hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/50"
@@ -50,10 +50,10 @@ export const Botones = ({ sobreFoto = false, centrado = false }: { sobreFoto?: b
       Agenda una visita
     </motion.a>
     <motion.a
-      href={WA_INFO}
+      href={waInfo()}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={registrarContacto}
+      onClick={registrarContacto("hocicos_escribenos")}
       whileHover={{ y: -3 }}
       whileTap={{ scale: 0.97 }}
       className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-8 py-4 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/50 ${
