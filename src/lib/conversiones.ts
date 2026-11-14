@@ -69,9 +69,7 @@ type LeadBase = { email: string; nombre: string | null; telefono?: string | null
 export async function guardarLead(base: LeadBase) {
   const atribucion = leerAtribucion();
   const conOrigen = { ...base, ref: codigoReferencia(atribucion), atribucion };
-  // ref y atribucion vienen de la migración 20261114120000_leads_atribucion; quitar el cast
-  // cuando se regeneren los tipos de Supabase con esas columnas.
-  const { error } = await supabase.from("leads").insert(conOrigen as unknown as TablesInsert<"leads">);
+  const { error } = await supabase.from("leads").insert(conOrigen as TablesInsert<"leads">);
   if (!error) return { error: null };
   const faltaColumna = /column|schema cache/i.test(error.message);
   return faltaColumna ? await supabase.from("leads").insert(base) : { error };
