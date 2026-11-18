@@ -1,4 +1,4 @@
-# CLAUDE.md — MyPet
+# CLAUDE.md — Mayte Pet Hotel
 
 Plataforma multi-tenant para guarderías caninas. Nació como la app de Mayte Pet Hotel (Bogotá) y está evolucionando a un SaaS modular para guarderías en Colombia/LatAm. El plan maestro por fases vive en el artifact "Plan Maestro" (memoria de Claude) — killer feature en construcción: registro de asistencia agéntico por WhatsApp.
 
@@ -49,19 +49,26 @@ Deploy de funciones: `supabase functions deploy <nombre>` (requiere CLI de Supab
 - **Supabase**: proyecto propio `fxalcejjkftwlegocsys`, organización `MaytePetHotel`,
   región `us-east-1`. Reemplaza a `cvhzsanjnkmqzrjdgcjh`, que era un backend de
   Lovable Cloud y ya no es la fuente de verdad.
-  - **Cuenta dueña: `cuidogapp@gmail.com`.** No es la personal de Miguel
-    (`miguel.samaca.samaca@gmail.com`) ni `ingsonido.msamaca@gmail.com`: con esas el
-    dashboard responde "no tienes acceso". La CLI de este equipo suele quedar logueada con
-    la personal; antes de usarla aquí, `npx supabase login` con cuidogapp.
+  - **Cuenta dueña: `maitepetbouteque@gmail.com`** (correo de Catalina; Mayte Pet Hotel y
+    Mayte Pet Boutique son el mismo negocio). Org `mzuoulvckzcuomkrcmzp`. Miguel
+    (`miguel.samaca.samaca@gmail.com`) es miembro con rol **Developer**, así que la CLI
+    logueada con su cuenta personal ve el proyecto. Hasta el 17 nov 2026 la dueña era
+    cuidogapp@gmail.com (la cuenta de CuiDog), que ya salió de la org.
   - **Plan Free = se pausa tras 7 días sin actividad.** Pausado, el dominio
     `<ref>.supabase.co` deja de resolver en DNS y el `/admin` no deja entrar. Pasó el
     9 nov 2026; se reactivó desde el dashboard con "Restore project".
   - Conexión directa `db.<ref>.supabase.co` **no resuelve por IPv4**: usar el pooler
     `postgresql://postgres.<ref>:<pass>@aws-0-us-east-1.pooler.supabase.com:5432/postgres`.
-- **Deploy**: Vercel, equipo `MAYTE` (`mayte3`, plan Hobby), proyecto `mypet-app`.
-  Conectado a GitHub: cada push a `main` despliega solo. La cuenta de Vercel es
-  cuidogapp@gmail.com y la de GitHub miguel.samaca.samaca@gmail.com — distintas a
-  propósito, se enlazan por OAuth.
+- **Nombres** (renombrados el 17 nov 2026 para separarlo de CuiDog, que se llamó MyPet):
+  repo GitHub `MiguelSamaca/mayte-pet-hotel` (antes `mypet-app`; GitHub redirige el nombre
+  viejo), proyecto Vercel `mayte-pet-hotel`, carpeta local
+  `C:\Users\migue\Projects\mayte-pet-hotel`.
+- **Deploy**: Vercel, cuenta **MaytePet** (`maitepetbouteque@gmail.com`, plan Hobby),
+  proyecto `mayte-pet-hotel` (`mayte-pet-hotel.vercel.app`). Conectado a GitHub: cada
+  push a `main` despliega solo. El repo está en el GitHub personal de Miguel — cuentas
+  distintas a propósito, se enlazan por OAuth. Hobby es para uso no comercial: cuando el
+  sitio pese para el negocio, pasar a Pro. Hasta el 17 nov 2026 vivía en el equipo
+  `MAYTE` (`mayte3`) de cuidogapp, proyecto `mypet-app`.
   Vercel usa sus propias variables del panel, no el `.env` del repo.
 - **Dominio**: `maytepethotel.com` y `www`, ambos con registro A a `76.76.21.21`.
   Los nameservers siguen en IONOS y ahí deben quedarse: el correo del negocio vive

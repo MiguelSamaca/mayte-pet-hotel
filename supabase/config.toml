@@ -17,7 +17,7 @@ verify_jwt = false
 site_url = "https://maytepethotel.com"
 additional_redirect_urls = [
   "https://www.maytepethotel.com",
-  "https://mypet-app-delta.vercel.app",
+  "https://mayte-pet-hotel.vercel.app",
   "http://localhost:8080",
 ]
 # La app no tiene pantalla de registro: los usuarios se crean a mano desde el
